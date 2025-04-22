@@ -235,3 +235,15 @@ a:focus, button:focus {
 canvas {
   display: block;
 }
+
+/*This is the animation for the photo and the about-text*/
+.photo, .about-text {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 2s ease;
+}
+
+.photo.visible, .about-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

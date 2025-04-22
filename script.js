@@ -1,6 +1,11 @@
+// Get all animated elements
 const animatedElements = document.querySelectorAll('.animate-up');
+const aboutImage = document.querySelector('.about-section .photo');
+const aboutText = document.querySelector('.about-section .about-text');
+let lastScrollPosition = 0;
+let hasAnimatedAboutSection = false;
 
-// Create starfield
+// Create starfield background
 const starField = document.getElementById('starField');
 const numberOfStars = 200;
 
@@ -14,8 +19,8 @@ for (let i = 0; i < numberOfStars; i++) {
   starField.appendChild(star);
 }
 
-// Animation sequence
-function startAnimations() {
+// Initial animations for intro elements
+function startInitialAnimations() {
   // First show the image
   setTimeout(() => {
     animatedElements[0].classList.add('visible');
@@ -39,18 +44,46 @@ function startAnimations() {
           }, 300);
         }, 300);
       }, 300);
-    }, 300);
-  }, 500);
+    }, 200);
+  }, 100);
 }
 
-// Initialize
+// Handle about section animation
+function handleAboutSectionAnimation() {
+  const aboutSection = document.querySelector('.about-section');
+  const rect = aboutSection.getBoundingClientRect();
+  const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom >= 0;
+  const isScrollingDown = window.scrollY > lastScrollPosition;
+
+  if (isInView && isScrollingDown) {
+    aboutImage.classList.add('visible');
+    aboutText.classList.add('visible');
+    hasAnimatedAboutSection = true;
+  } else if (!isInView && hasAnimatedAboutSection) {
+    // Reset animation if scrolled above the section
+    aboutImage.classList.remove('visible');
+    aboutText.classList.remove('visible');
+    hasAnimatedAboutSection = false;
+  }
+
+  lastScrollPosition = window.scrollY;
+}
+
+// Initialize everything
 function init() {
+  // Reset scroll position
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
   }
   window.scrollTo(0, 0);
   window.addEventListener('beforeunload', () => window.scrollTo(0, 0));
-  startAnimations();
+
+  // Start animations
+  startInitialAnimations();
+  
+  // Set up scroll listener for about section
+  window.addEventListener('scroll', handleAboutSectionAnimation);
 }
 
+// Start when page loads
 window.addEventListener('load', init);
