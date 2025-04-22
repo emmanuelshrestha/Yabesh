@@ -194,8 +194,7 @@ a:focus, button:focus {
 .social-icons {
   display: flex;
   justify-content: center;
-  gap: 60px;
-  margin-bottom: 20px;
+  gap: 80px;
 }
 
 .social-icons a {
@@ -275,4 +274,23 @@ canvas {
 .photo.visible, .about-text.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.interactive-lines {
+  position: relative;
+  width: 100%;
+  height: 1px; /* Single line height when collinear */
+  margin: 40px 0; /* Increased vertical spacing */
+}
+
+.line {
+  position: absolute;
+  width: 600px; /* Longer lines (was 200px) */
+  height: 1px;
+  background: #FFF4D6;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  transform-origin: center center;
+  transition: transform 0.1s linear;
 }

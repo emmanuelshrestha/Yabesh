@@ -87,3 +87,29 @@ function init() {
 
 // Start when page loads
 window.addEventListener('load', init);
+
+const line1 = document.getElementById('line1');
+const line2 = document.getElementById('line2');
+const centerY = window.innerHeight / 2;
+const maxAngle = 2; // Maximum angle set to 4 degrees
+
+document.addEventListener('mousemove', (e) => {
+  const yOffset = e.clientY - centerY;
+  
+  // Calculate angle proportionally, but never exceed 4 degrees
+  const angle = Math.min(Math.abs(yOffset) * (maxAngle / centerY), maxAngle);
+  
+  if (yOffset < 0) {
+    line1.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+    line2.style.transform = `translateX(-50%) rotate(-${angle}deg)`;
+  } else {
+    line1.style.transform = `translateX(-50%) rotate(-${angle}deg)`;
+    line2.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+  }
+});
+
+// Reset on mouse leave remains the same
+document.addEventListener('mouseleave', () => {
+  line1.style.transform = 'translateX(-50%) rotate(0deg)';
+  line2.style.transform = 'translateX(-50%) rotate(0deg)';
+});
