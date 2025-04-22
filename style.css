@@ -294,3 +294,19 @@ canvas {
   transform-origin: center center;
   transition: transform 0.1s linear;
 }
+
+/* Add to existing animate-up styles */
+.footer-animation-group {
+  position: relative;
+}
+
+.animate-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animate-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

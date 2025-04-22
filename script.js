@@ -113,3 +113,27 @@ document.addEventListener('mouseleave', () => {
   line1.style.transform = 'translateX(-50%) rotate(0deg)';
   line2.style.transform = 'translateX(-50%) rotate(0deg)';
 });
+
+
+// Add to existing script.js
+const footerElements = document.querySelectorAll('.footer-animation-group .animate-up');
+let lastScrollPos = 0;
+
+function checkFooterAnimation() {
+  const currentScroll = window.scrollY;
+  const triggerPos = document.body.scrollHeight - window.innerHeight * 1.5;
+
+  footerElements.forEach(el => {
+    if (currentScroll > triggerPos && currentScroll > lastScrollPos) {
+      // Scrolling down near footer - animate up
+      el.classList.add('visible');
+    } else if (currentScroll < lastScrollPos) {
+      // Scrolling up - reset animation
+      el.classList.remove('visible');
+    }
+  });
+  lastScrollPos = currentScroll;
+}
+
+window.addEventListener('scroll', checkFooterAnimation);
+window.addEventListener('load', checkFooterAnimation); // Check on load
