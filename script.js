@@ -1,14 +1,10 @@
-// Get all animated elements
-const animatedElements = document.querySelectorAll('.animate-up');
-const aboutImage = document.querySelector('.about-section .photo');
-const aboutText = document.querySelector('.about-section .about-text');
-let lastScrollPosition = 0;
-let hasAnimatedAboutSection = false;
-
-// Create starfield background
+// =============================================
+// STARFIELD BACKGROUND
+// =============================================
 const starField = document.getElementById('starField');
 const numberOfStars = 200;
 
+// Create star elements with random positions and animations
 for (let i = 0; i < numberOfStars; i++) {
   const star = document.createElement('div');
   star.className = 'star';
@@ -19,121 +15,121 @@ for (let i = 0; i < numberOfStars; i++) {
   starField.appendChild(star);
 }
 
-// Initial animations for intro elements
-function startInitialAnimations() {
-  // First show the image
-  setTimeout(() => {
-    animatedElements[0].classList.add('visible');
-    
-    // Then show the text container
-    setTimeout(() => {
-      animatedElements[1].classList.add('visible');
-      
-      // Animate first paragraph
-      setTimeout(() => {
-        const paragraphs = animatedElements[1].querySelectorAll('p');
-        paragraphs[0].classList.add('visible');
-        
-        // Then animate second paragraph
-        setTimeout(() => {
-          paragraphs[1].classList.add('visible');
-          
-          // Finally show school info
-          setTimeout(() => {
-            animatedElements[2].classList.add('visible');
-          }, 300);
-        }, 300);
-      }, 300);
-    }, 200);
-  }, 100);
+// =============================================
+// PAGE INITIALIZATION
+// =============================================
+function init() {
+  // Prevent scroll restoration on page refresh
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0); // Start at top of page
+  
+  // Start all animations
+  startInitialAnimations();
+  
+  // Set up scroll event listeners
+  window.addEventListener('scroll', handleScrollEvents);
 }
 
-// Handle about section animation
-function handleAboutSectionAnimation() {
+// =============================================
+// INTRO ANIMATIONS (Sequential appearance)
+// =============================================
+function startInitialAnimations() {
+  const animatedElements = document.querySelectorAll('.intro-text .animate-up');
+  
+  // Animate elements one after another with delays
+  setTimeout(() => animatedElements[0].classList.add('visible'), 100); // Image
+  setTimeout(() => {
+    animatedElements[1].classList.add('visible'); // Text container
+    setTimeout(() => {
+      const paragraphs = animatedElements[1].querySelectorAll('p');
+      paragraphs[0].classList.add('visible'); // First paragraph
+      setTimeout(() => {
+        paragraphs[1].classList.add('visible'); // Second paragraph
+        setTimeout(() => {
+          animatedElements[2].classList.add('visible'); // School info
+        }, 300);
+      }, 300);
+    }, 300);
+  }, 200);
+}
+
+// =============================================
+// SCROLL-BASED ANIMATIONS
+// =============================================
+let lastScrollPosition = 0;
+
+function handleScrollEvents() {
+  const currentScroll = window.scrollY;
+  
+  // Handle about section animation
+  handleAboutSectionAnimation(currentScroll);
+  
+  // Handle footer animation
+  checkFooterAnimation(currentScroll);
+  
+  lastScrollPosition = currentScroll;
+}
+
+// About section show/hide logic
+function handleAboutSectionAnimation(currentScroll) {
   const aboutSection = document.querySelector('.about-section');
+  const aboutImage = document.querySelector('.about-section .photo');
+  const aboutText = document.querySelector('.about-section .about-text');
   const rect = aboutSection.getBoundingClientRect();
+  
   const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom >= 0;
-  const isScrollingDown = window.scrollY > lastScrollPosition;
+  const isScrollingDown = currentScroll > lastScrollPosition;
 
   if (isInView && isScrollingDown) {
     aboutImage.classList.add('visible');
     aboutText.classList.add('visible');
-    hasAnimatedAboutSection = true;
-  } else if (!isInView && hasAnimatedAboutSection) {
-    // Reset animation if scrolled above the section
+  } else if (!isInView && currentScroll < lastScrollPosition) {
     aboutImage.classList.remove('visible');
     aboutText.classList.remove('visible');
-    hasAnimatedAboutSection = false;
   }
-
-  lastScrollPosition = window.scrollY;
 }
 
-// Initialize everything
-function init() {
-  // Reset scroll position
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
-  window.scrollTo(0, 0);
-  window.addEventListener('beforeunload', () => window.scrollTo(0, 0));
+// Footer elements animation
+function checkFooterAnimation(currentScroll) {
+  const footerElements = document.querySelectorAll('.footer-animation-group > div');
+  const triggerPos = document.body.scrollHeight - window.innerHeight * 1.5;
 
-  // Start animations
-  startInitialAnimations();
-  
-  // Set up scroll listener for about section
-  window.addEventListener('scroll', handleAboutSectionAnimation);
+  footerElements.forEach(el => {
+    if (currentScroll > triggerPos && currentScroll > lastScrollPosition) {
+      el.classList.add('visible'); // Animate in when scrolling down
+    } else if (currentScroll < lastScrollPosition) {
+      el.classList.remove('visible'); // Hide when scrolling up
+    }
+  });
 }
 
-// Start when page loads
-window.addEventListener('load', init);
-
+// =============================================
+// INTERACTIVE LINES (Mouse-controlled animation)
+// =============================================
 const line1 = document.getElementById('line1');
 const line2 = document.getElementById('line2');
 const centerY = window.innerHeight / 2;
-const maxAngle = 2; // Maximum angle set to 4 degrees
+const maxAngle = 2; // Maximum rotation angle in degrees
 
 document.addEventListener('mousemove', (e) => {
   const yOffset = e.clientY - centerY;
-  
-  // Calculate angle proportionally, but never exceed 4 degrees
   const angle = Math.min(Math.abs(yOffset) * (maxAngle / centerY), maxAngle);
   
-  if (yOffset < 0) {
-    line1.style.transform = `translateX(-50%) rotate(${angle}deg)`;
-    line2.style.transform = `translateX(-50%) rotate(-${angle}deg)`;
-  } else {
-    line1.style.transform = `translateX(-50%) rotate(-${angle}deg)`;
-    line2.style.transform = `translateX(-50%) rotate(${angle}deg)`;
-  }
+  // Rotate lines in opposite directions based on mouse position
+  line1.style.transform = `translateX(-50%) rotate(${yOffset < 0 ? angle : -angle}deg)`;
+  line2.style.transform = `translateX(-50%) rotate(${yOffset < 0 ? -angle : angle}deg)`;
 });
 
-// Reset on mouse leave remains the same
+// Reset lines when mouse leaves window
 document.addEventListener('mouseleave', () => {
   line1.style.transform = 'translateX(-50%) rotate(0deg)';
   line2.style.transform = 'translateX(-50%) rotate(0deg)';
 });
 
-
-// Add to existing script.js
-const footerElements = document.querySelectorAll('.footer-animation-group .animate-up');
-let lastScrollPos = 0;
-
-function checkFooterAnimation() {
-  const currentScroll = window.scrollY;
-  const triggerPos = document.body.scrollHeight - window.innerHeight * 1.5;
-
-  footerElements.forEach(el => {
-    if (currentScroll > triggerPos && currentScroll > lastScrollPos) {
-      // Scrolling down near footer - animate up
-      el.classList.add('visible');
-    } else if (currentScroll < lastScrollPos) {
-      // Scrolling up - reset animation
-      el.classList.remove('visible');
-    }
-  });
-  lastScrollPos = currentScroll;
-}
-
-window.addEventListener('scroll', checkFooterAnimation);
-window.addEventListener('load', checkFooterAnimation); // Check on load
+// =============================================
+// START EVERYTHING WHEN PAGE LOADS
+// =============================================
+window.addEventListener('load', init);
+window.addEventListener('beforeunload', () => window.scrollTo(0, 0));

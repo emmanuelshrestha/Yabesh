@@ -1,25 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- =============================================
+       META TAGS & BASIC SETUP
+       ============================================= -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Personal website of Yabesh Shrestha, a student passionate about coding and science">
   <meta property="og:title" content="Yabesh Shrestha">
   <meta property="og:description" content="Student passionate about coding and science">
   <title>Yabesh Shrestha</title> 
+  
+  <!-- =============================================
+       FONT IMPORTS
+       ============================================= -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- =============================================
+       CSS FILES
+       ============================================= -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <!-- =============================================
+       STARFIELD BACKGROUND
+       ============================================= -->
   <div class="star-field" id="starField"></div>
 
-  <div class="intro-text">
+  <!-- =============================================
+       INTRODUCTION SECTION
+       ============================================= -->
+  <section class="intro-text" aria-label="Introduction">
     <div class="logo-text">
-      <img src="YS.jpg" alt="" class="image animate-up">
+      <img src="YS.jpg" alt="Yabesh Shrestha" class="image animate-up">
+      
       <div class="text-lines">
         <div class="text-section animate-up">
           <p>Hey, I'm <span class="emphasis">Yabesh</span>.</p>
@@ -29,63 +47,70 @@
     </div>
 
     <div class="work animate-up">
-      <p>Currently studying at <a href="https://southwesternschool.edu.np/" target="blank">Southwestern School</a>.</p>
+      <p>Currently studying at <a href="https://southwesternschool.edu.np/" target="blank" rel="noopener noreferrer">Southwestern School</a>.</p>
     </div>
-  </div>
+  </section>
 
-  <div class="about-section">
-    <img src="image.png" alt="" class="photo">
+  <!-- =============================================
+       ABOUT SECTION
+       ============================================= -->
+  <section class="about-section" aria-label="About Me">
+    <img src="image.png" alt="Yabesh Shrestha" class="photo">
+    
     <div class="about-text">
-      <h3>A BIT ABOUT ME</h3>
+      <h2>A BIT ABOUT ME</h2>
       <p>
-        I'm a middle school student at <a href="https://southwesternschool.edu.np/" target="blank">Southwestern School</a>,
+        I'm a middle school student at <a href="https://southwesternschool.edu.np/" target="blank" rel="noopener noreferrer">Southwestern School</a>,
         passionate about coding, science, and learning new things. I enjoy working on
         tech-related projects, writing, and exploring how the world works. I'm currently
-        preparing for the <a href="https://en.wikipedia.org/wiki/District_Level_Examination" target="blank">BLE</a> with hopes of scoring good marks.
+        preparing for the <a href="https://en.wikipedia.org/wiki/District_Level_Examination" target="blank" rel="noopener noreferrer">BLE</a> with hopes of scoring good marks.
       </p>
       <p>Interested in collaborating? Feel free to reach out!</p>
     </div>
-  </div>
+  </section>
   
-  <!-- Move these outside the about-section -->
-  <div class="footer-section">
+  <!-- =============================================
+       FOOTER SECTION
+       ============================================= -->
+  <footer class="footer-section" aria-label="Footer">
     <div class="footer-animation-group">
+      <!-- Social Media Icons -->
       <div class="social-icons animate-up">
-        <!-- Facebook -->
-        <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook">
+        <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
           <i class="fab fa-facebook-square"></i>
         </a>
         
-        <!-- X (Twitter) - Corrected -->
-        <a href="https://x.com" target="_blank" class="social-icon">
-          <!-- Scaled-down SVG with proper viewBox -->
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff4d6">
+        <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Twitter">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff4d6" aria-hidden="true">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
           </svg>
         </a>
         
-        <!-- LinkedIn -->
-        <a href="https://www.linkedin.com/" target="_blank" aria-label="LinkedIn">
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
           <i class="fab fa-linkedin"></i>
         </a>
         
-        <!-- Email -->
         <a href="mailto:shresthaemmanuel4@gmail.com" aria-label="Email">
           <i class="fas fa-envelope"></i>
         </a>
       </div>
 
+      <!-- Interactive Lines -->
       <div class="interactive-lines animate-up">
         <div class="line" id="line1"></div>
         <div class="line" id="line2"></div>
       </div>
     
+      <!-- Signature -->
       <div class="signature animate-up">
-        <a href="javascript:location.reload(true)">YS</a>
+        <a href="javascript:location.reload(true)" aria-label="Reload page">YS</a>
       </div>
     </div>
-  </div> 
+  </footer> 
 
+  <!-- =============================================
+       JAVASCRIPT
+       ============================================= -->
   <script src="script.js"></script>
 </body>
 </html>
