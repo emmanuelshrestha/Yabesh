@@ -78,17 +78,31 @@ body {
 }
 
 .text-section {
+  display: flex;
+  flex-direction: column;
   font-size: 30px;
   text-align: left; 
   position: relative;
   z-index: 1;
   color: #908A76;
-  line-height: 15px;
+  line-height: 30px;
+}
+
+.text-section p {
+  margin: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.6s ease;
+}
+
+.text-section p.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .work {
-  padding-top: 20px;
-  margin-left: 100px;
+  padding-top: 40px;
+  margin-left: 108px;
   color: #908a76;
   font-size: 16px;
   line-height: 24px;
@@ -209,7 +223,7 @@ a:focus, button:focus {
 .animate-up {
   opacity: 0;
   transform: translateY(40px);
-  transition: all 0.6s ease;
+  transition: all 0.8s ease;
   will-change: transform, opacity;
 }
 

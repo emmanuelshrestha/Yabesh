@@ -1,58 +1,56 @@
-const elements = document.querySelectorAll('.animate-up');
+const animatedElements = document.querySelectorAll('.animate-up');
 
-// Animate first and second together after a short delay
-setTimeout(() => {
-  elements[0]?.classList.add('visible');
-  elements[1]?.classList.add('visible');
-}, 500); // Adjust timing if needed
-
-// Animate the remaining elements one by one
-for (let i = 2; i < elements.length; i++) {
-  setTimeout(() => {
-    elements[i].classList.add('visible');
-  }, 500 + (i - 1) * 500); // Starts after the first two
-}
-
+// Create starfield
 const starField = document.getElementById('starField');
 const numberOfStars = 200;
 
 for (let i = 0; i < numberOfStars; i++) {
   const star = document.createElement('div');
   star.className = 'star';
-
-  const top = Math.random() * 100;
-  const left = Math.random() * 100;
-  star.style.top = `${top}vh`;
-  star.style.left = `${left}vw`;
-
-  const duration = 1 + Math.random() * 2;
-  const delay = Math.random() * 3;
-  star.style.animationDuration = `${duration}s`;
-  star.style.animationDelay = `${delay}s`;
-
+  star.style.top = `${Math.random() * 100}vh`;
+  star.style.left = `${Math.random() * 100}vw`;
+  star.style.animationDuration = `${1 + Math.random() * 2}s`;
+  star.style.animationDelay = `${Math.random() * 3}s`;
   starField.appendChild(star);
 }
 
-// prevent scroll restoration so reload always jumps to top
-if ('scrollRestoration' in history) {
-  history.scrollRestoration = 'manual';
+// Animation sequence
+function startAnimations() {
+  // First show the image
+  setTimeout(() => {
+    animatedElements[0].classList.add('visible');
+    
+    // Then show the text container
+    setTimeout(() => {
+      animatedElements[1].classList.add('visible');
+      
+      // Animate first paragraph
+      setTimeout(() => {
+        const paragraphs = animatedElements[1].querySelectorAll('p');
+        paragraphs[0].classList.add('visible');
+        
+        // Then animate second paragraph
+        setTimeout(() => {
+          paragraphs[1].classList.add('visible');
+          
+          // Finally show school info
+          setTimeout(() => {
+            animatedElements[2].classList.add('visible');
+          }, 300);
+        }, 300);
+      }, 300);
+    }, 300);
+  }, 500);
 }
 
-// immediately scroll to top on load/reload
-window.scrollTo(0, 0);
-
-// also cover the case where the browser tries to restore scroll
-window.addEventListener('beforeunload', () => {
+// Initialize
+function init() {
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
   window.scrollTo(0, 0);
-});
+  window.addEventListener('beforeunload', () => window.scrollTo(0, 0));
+  startAnimations();
+}
 
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, {threshold: 0.1});
-
-elements.forEach(el => observer.observe(el));
+window.addEventListener('load', init);
