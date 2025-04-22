@@ -194,20 +194,48 @@ a:focus, button:focus {
 .social-icons {
   display: flex;
   justify-content: center;
-  gap: 40px; /* or reduce from 70px if it feels too wide */
-  margin-bottom: 20px; /* reduces space before YS */
+  gap: 60px;
+  margin-bottom: 20px;
 }
 
-.social-icons img {
+.social-icons a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 30px;
   height: 30px;
-  filter: brightness(0.9);
-  transition: transform 0.3s ease, filter 0.3s ease;
+  color: #fff4d6;
+  position: relative; /* Required for absolute positioning of underline */
+  transition: all 0.3s ease;
+  padding-bottom: 8px; /* Creates space for the underline */
 }
 
-.social-icons img:hover {
+/* Social icon underline (positioned lower) */
+.social-icons a::after {
+  content: "";
+  position: absolute;
+  bottom: 2px; /* Adjust this value to control underline position */
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #ffffff;
   transform: scale(1.2);
-  filter: brightness(1.2);
+}
+
+.social-icons a:hover::after {
+  transform: scaleX(1); /* Full width on hover */
+}
+
+.social-icons a i {
+  font-size: 30px;
+  display: block; /* Ensures proper scaling */
 }
 
 .signature {
@@ -220,7 +248,6 @@ a:focus, button:focus {
   margin-top: 10px;
   margin-bottom: 30px;
 }
-
 
 .animate-up {
   opacity: 0;
