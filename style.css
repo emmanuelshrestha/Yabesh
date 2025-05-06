@@ -62,12 +62,34 @@
     gap: 20px;
   }
   
+  .logo{
+    width: 80px;
+    height: auto;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
   .image {
     width: 80px;
     height: auto;
     opacity: 1;
     transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
     transform-style: preserve-3d;
+  }
+
+  .image, .photo {
+    border-radius: 12px; /* Soft rounded corners */
+    box-shadow: 0 4px 30px rgba(255, 244, 214, 0.15); /* Soft glow */
+    border: 1px solid rgba(255, 244, 214, 0.1); /* Thin border */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover */
+  }
+
+  .image:hover, .photo:hover {
+    transform: scale(1.02); /* Slight zoom */
+    box-shadow: 0 8px 40px rgba(255, 244, 214, 0.25); /* Brighter glow */
   }
   
   .text-section {
