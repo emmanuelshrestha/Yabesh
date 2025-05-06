@@ -15,6 +15,12 @@
     color: #908A76;
     overflow-x: hidden;
   }
+
+  @media (max-width: 768px) {
+    .intro-text { margin-left: 5%; }
+    .logo-text { flex-direction: column; }
+    .about-section { flex-direction: column; }
+  }
   
   /* =============================================
      STARFIELD BACKGROUND
