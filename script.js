@@ -1,10 +1,16 @@
 // =============================================
-// STARFIELD BACKGROUND
+// GLOBAL VARIABLES
 // =============================================
 const starField = document.getElementById('starField');
 const numberOfStars = 200;
+const line1 = document.getElementById('line1');
+const line2 = document.getElementById('line2');
+let lastScrollPosition = 0; // Single source of truth for scroll position
+let isScrolling = false;
 
-// Create star elements with random positions and animations
+// =============================================
+// STARFIELD BACKGROUND
+// =============================================
 for (let i = 0; i < numberOfStars; i++) {
   const star = document.createElement('div');
   star.className = 'star';
@@ -19,60 +25,36 @@ for (let i = 0; i < numberOfStars; i++) {
 // PAGE INITIALIZATION
 // =============================================
 function init() {
-  // Prevent scroll restoration on page refresh
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
   }
-  window.scrollTo(0, 0); // Start at top of page
-  
-  // Start all animations
+  window.scrollTo(0, 0);
   startInitialAnimations();
-  
-  // Set up scroll event listeners
-  window.addEventListener('scroll', handleScrollEvents);
+  setupEventListeners();
 }
 
 // =============================================
-// INTRO ANIMATIONS (Sequential appearance)
+// ANIMATION FUNCTIONS
 // =============================================
 function startInitialAnimations() {
   const animatedElements = document.querySelectorAll('.intro-text .animate-up');
   
-  // Animate elements one after another with delays
-  setTimeout(() => animatedElements[0].classList.add('visible'), 100); // Image
+  setTimeout(() => animatedElements[0].classList.add('visible'), 100);
   setTimeout(() => {
-    animatedElements[1].classList.add('visible'); // Text container
+    animatedElements[1].classList.add('visible');
     setTimeout(() => {
       const paragraphs = animatedElements[1].querySelectorAll('p');
-      paragraphs[0].classList.add('visible'); // First paragraph
+      paragraphs[0].classList.add('visible');
       setTimeout(() => {
-        paragraphs[1].classList.add('visible'); // Second paragraph
+        paragraphs[1].classList.add('visible');
         setTimeout(() => {
-          animatedElements[2].classList.add('visible'); // School info
+          animatedElements[2].classList.add('visible');
         }, 300);
       }, 300);
     }, 300);
   }, 200);
 }
 
-// =============================================
-// SCROLL-BASED ANIMATIONS
-// =============================================
-let lastScrollPosition = 0;
-
-function handleScrollEvents() {
-  const currentScroll = window.scrollY;
-  
-  // Handle about section animation
-  handleAboutSectionAnimation(currentScroll);
-  
-  // Handle footer animation
-  checkFooterAnimation(currentScroll);
-  
-  lastScrollPosition = currentScroll;
-}
-
-// About section show/hide logic
 function handleAboutSectionAnimation(currentScroll) {
   const aboutSection = document.querySelector('.about-section');
   const aboutImage = document.querySelector('.about-section .photo');
@@ -91,59 +73,75 @@ function handleAboutSectionAnimation(currentScroll) {
   }
 }
 
-// Footer elements animation
 function checkFooterAnimation(currentScroll) {
   const footerElements = document.querySelectorAll('.footer-animation-group > div');
-  const triggerPos = document.body.scrollHeight - window.innerHeight * 1.5;
+  const footerSection = document.querySelector('.footer-section');
+  const footerRect = footerSection.getBoundingClientRect();
+  
+  const footerInView = (
+    footerRect.top < (window.innerHeight + 100) && 
+    footerRect.bottom >= 0
+  );
 
   footerElements.forEach(el => {
-    if (currentScroll > triggerPos && currentScroll > lastScrollPosition) {
-      el.classList.add('visible'); // Animate in when scrolling down
+    if (footerInView) {
+      el.classList.add('visible');
     } else if (currentScroll < lastScrollPosition) {
-      el.classList.remove('visible'); // Hide when scrolling up
+      el.classList.remove('visible');
     }
   });
 }
 
 // =============================================
-// INTERACTIVE LINES (Mouse-controlled animation)
+// EVENT HANDLERS
 // =============================================
-const line1 = document.getElementById('line1');
-const line2 = document.getElementById('line2');
-const centerY = window.innerHeight / 2;
-const centerX = window.innerWidth / 2;
-const maxAngle = 2; // Max rotation angle (degrees)
-const baseLength = 600; // Starting length (px)
-const maxLengthIncrease = 30; // Max additional length (px)
+function handleScrollEvents() {
+  const currentScroll = window.scrollY;
+  
+  if (!isScrolling) {
+    window.requestAnimationFrame(() => {
+      handleAboutSectionAnimation(currentScroll);
+      checkFooterAnimation(currentScroll);
+      lastScrollPosition = currentScroll;
+      isScrolling = false;
+    });
+    isScrolling = true;
+  }
+}
 
-document.addEventListener('mousemove', (e) => {
-  // Vertical rotation logic (existing)
+function setupInteractiveLines(e) {
+  const centerY = window.innerHeight / 2;
+  const centerX = window.innerWidth / 2;
+  const maxAngle = 2;
+  const baseLength = 600;
+  const maxLengthIncrease = 30;
+
   const yOffset = e.clientY - centerY;
   const angle = Math.min(Math.abs(yOffset) * (maxAngle / centerY), maxAngle);
-  
-  // Horizontal length logic (new)
   const xOffset = e.clientX - centerX;
   const lengthIncrease = Math.min(Math.abs(xOffset) * (maxLengthIncrease / centerX), maxLengthIncrease);
   
-  // Apply both effects
   line1.style.transform = `translateX(-50%) rotate(${yOffset < 0 ? angle : -angle}deg)`;
   line2.style.transform = `translateX(-50%) rotate(${yOffset < 0 ? -angle : angle}deg)`;
-  
-  // Adjust line length (600px base + 0-30px increase)
   line1.style.width = `${baseLength + lengthIncrease}px`;
   line2.style.width = `${baseLength + lengthIncrease}px`;
-});
+}
 
-// Reset lines when mouse leaves window
-document.addEventListener('mouseleave', () => {
+function resetInteractiveLines() {
   line1.style.transform = 'translateX(-50%) rotate(0deg)';
   line2.style.transform = 'translateX(-50%) rotate(0deg)';
-  line1.style.width = `${baseLength}px`; // Reset to 600px
-  line2.style.width = `${baseLength}px`;
-});
+  line1.style.width = '600px';
+  line2.style.width = '600px';
+}
+
+function setupEventListeners() {
+  window.addEventListener('scroll', handleScrollEvents);
+  document.addEventListener('mousemove', setupInteractiveLines);
+  document.addEventListener('mouseleave', resetInteractiveLines);
+}
 
 // =============================================
-// START EVERYTHING WHEN PAGE LOADS
+// INITIALIZE
 // =============================================
 window.addEventListener('load', init);
 window.addEventListener('beforeunload', () => window.scrollTo(0, 0));
