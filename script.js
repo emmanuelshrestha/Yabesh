@@ -22,6 +22,30 @@ for (let i = 0; i < numberOfStars; i++) {
 }
 
 // =============================================
+// UP ARROW COMPONENT
+// =============================================
+function initUpArrow() {
+  // Create arrow element
+  const arrow = document.createElement('button');
+  arrow.id = 'up-arrow';
+  arrow.innerHTML = '↑';
+  arrow.ariaLabel = 'Restart page';
+  document.body.appendChild(arrow);
+
+  // Scroll visibility handler
+  window.addEventListener('scroll', () => {
+    arrow.style.opacity = window.scrollY > 300 ? '1' : '0';
+    arrow.style.pointerEvents = window.scrollY > 300 ? 'all' : 'none';
+  });
+
+  // Click handler (matches your logo functionality)
+  arrow.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => location.reload(), 500);
+  });
+}
+
+// =============================================
 // PAGE INITIALIZATION
 // =============================================
 function init() {
@@ -31,7 +55,9 @@ function init() {
   window.scrollTo(0, 0);
   startInitialAnimations();
   setupEventListeners();
+  initUpArrow();
 }
+
 
 // =============================================
 // ANIMATION FUNCTIONS

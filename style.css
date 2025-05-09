@@ -49,6 +49,37 @@
     50% { opacity: 1; transform: scale(1.5); }
   }
   
+  /* ============================================= */
+  /* UP ARROW STYLES (Add to your style.css) */
+  /* ============================================= */
+  #up-arrow {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: rgba(2, 22, 49, 0.8);
+    border: 1px solid #FFF4D6;
+    border-radius: 50%;
+    color: #FFF4D6;
+    font-size: 24px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 100;
+    backdrop-filter: blur(2px);
+    transform: scale(0.9);
+    outline: none;
+  }
+
+  #up-arrow:hover {
+    transform: scale(1);
+    background: rgba(2, 22, 49, 1);
+    box-shadow: 0 0 15px rgba(255, 244, 214, 0.3);
+  }
+
   /* =============================================
      INTRO SECTION
      ============================================= */
