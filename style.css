@@ -83,6 +83,32 @@
   /* =============================================
      INTRO SECTION
      ============================================= */
+.signup-container {
+    background-color: #3266aa;
+    position: fixed;
+    top: 24px;               /* closer to the corner */
+    right: 24px;
+    z-index: 1000;
+    width: auto;             /* adjust to content */
+    min-width: 80px;         /* minimum width for "Signup" */
+    height: 40px;            /* small height */
+    padding: 2px 3px;       /* smaller padding */
+    border-radius: 20px;     /* slightly rounded */
+    box-shadow: 0 4px 12px rgba(50, 102, 170, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;         /* smaller text */
+    color: #fff;             /* text color */
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.signup-container:hover {
+    box-shadow: 0 12px 36px rgba(50, 102, 170, 0.22);
+    transform: translateY(-2px) scale(1.01);
+}
+
   .intro-text {
     min-height: 100vh;
     display: flex;
